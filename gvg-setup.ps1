@@ -7,6 +7,3 @@ if (-not (Test-Path $RegistryPath)) {
 }
 # Set the registry property
 Set-ItemProperty -Path $RegistryPath -Name "EnableDesktopModeAutoInvoke" -Value 1 -Type DWord
-
-# Delete self
-start "" cmd /c del "%~f0"
