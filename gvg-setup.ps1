@@ -33,7 +33,7 @@ Write-Output "Downloading AnyDesk..."
 Invoke-WebRequest -Uri $AnyDeskURL -OutFile $InstallerPath
 
 Write-Output "Installing AnyDesk..."
-Start-Process -FilePath $InstallerPath -ArgumentList "--install C:\Program Files (x86)\AnyDesk" -Wait
+Start-Process -FilePath $InstallerPath -ArgumentList "/passive" -Wait
 
 # Clean up the installer
 Write-Output "Cleaning up..."
