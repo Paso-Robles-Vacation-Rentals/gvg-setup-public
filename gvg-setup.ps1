@@ -14,7 +14,7 @@ Write-Host "on-screen kayboard enabled"
 
 Write-Host "changing GVG landing page"
 # Define the path to the file
-$filePath = "C:\apps\bnblauncher\routes\index.js"
+$filePath = "C:\bnblauncher\routes\index.js"
 # Read the contents of the file
 $fileContent = Get-Content -Path $filePath
 # Replace the line containing var URL_PILOT
@@ -24,10 +24,11 @@ Set-Content -Path $filePath -Value $fileContent
 Write-Host "GVG landing page set"
 
 
-Write-Host "==============================================="
-Write-Host "           GVG setup complete!               "
-Write-Host "   GVG will restart in 10 seconds...         "
-Write-Host "==============================================="
+Write-Host "========================================="
+Write-Host "           GVG setup complete!           "
+Write-Host "     Remove Setup tool from GVG Now!     "
+Write-Host "    GVG will restart in 10 seconds...    "
+Write-Host "========================================="
 Start-Sleep -Seconds 10
 # Reboot the system
 Restart-Computer -Force
