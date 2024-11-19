@@ -25,6 +25,22 @@ $fileContent = $fileContent -replace 'var URL_PILOT = ".*";', 'var URL_PILOT = "
 Set-Content -Path $filePath -Value $fileContent
 Write-Host "GVG landing page set"
 
+# Stop the TeamViewer service
+Write-Output "Stopping the TeamViewer service..."
+Stop-Service -Name "TeamViewer" -Force -ErrorAction SilentlyContinue
+
+# Find the uninstall command for TeamViewer in the registry
+$UninstallKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*"
+$TeamViewer = Get-ItemProperty -Path $UninstallKey | Where-Object { $_.DisplayName -like "TeamViewer*" }
+if ($TeamViewer) {
+    Write-Output "TeamViewer found. Uninstalling..."
+    # Start the uninstallation process and wait for it to complete
+    Start-Process -FilePath $TeamViewer.UninstallString -ArgumentList "/S" -Wait -NoNewWindow
+    Write-Output "TeamViewer uninstallation completed."
+} else {
+    Write-Output "TeamViewer is not installed or not found in the registry."
+}
+
 # This variable is being set outside of this script
 # $AnyDeskURL = "https://download.anydesk.com/AnyDesk.msi"
 $InstallerPath = "$env:TEMP\AnyDesk.msi"
