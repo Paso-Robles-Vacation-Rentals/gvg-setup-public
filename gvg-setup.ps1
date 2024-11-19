@@ -1,7 +1,11 @@
+##############################################
+#     THIS IS A PUBLICLY AVAILIBLE FILE      #
+# DO NOT ADD ANy SENSITIVE DATA TO THIS FILE #
+##############################################
+
 Write-Host "Starting gvg setup script"
 
-Write-Host "enabling on-screen keyboard"
-# Define the registry path and property name
+Write-Host "Enabling on-screen keyboard"
 $RegistryPath = "HKCU:\Software\Microsoft\TabletTip\1.7"
 # Ensure the registry key exists
 if (-not (Test-Path $RegistryPath)) {
@@ -9,11 +13,9 @@ if (-not (Test-Path $RegistryPath)) {
 }
 # Set the registry property
 Set-ItemProperty -Path $RegistryPath -Name "EnableDesktopModeAutoInvoke" -Value 1 -Type DWord
-Write-Host "on-screen kayboard enabled"
+Write-Host "On-screen kayboard enabled"
 
-
-Write-Host "changing GVG landing page"
-# Define the path to the file
+Write-Host "Changing GVG landing page"
 $filePath = "C:\bnblauncher\routes\index.js"
 # Read the contents of the file
 $fileContent = Get-Content -Path $filePath
@@ -23,6 +25,20 @@ $fileContent = $fileContent -replace 'var URL_PILOT = ".*";', 'var URL_PILOT = "
 Set-Content -Path $filePath -Value $fileContent
 Write-Host "GVG landing page set"
 
+# This variable is being set outside of this script
+# $AnyDeskURL = "https://download.anydesk.com/AnyDesk.msi"
+$InstallerPath = "$env:TEMP\AnyDesk.msi"
+
+Write-Output "Downloading AnyDesk..."
+Invoke-WebRequest -Uri $AnyDeskURL -OutFile $InstallerPath
+
+Write-Output "Installing AnyDesk..."
+Start-Process -FilePath $InstallerPath -ArgumentList "--install C:\Program Files (x86)\AnyDesk" -Wait
+
+# Clean up the installer
+Write-Output "Cleaning up..."
+Remove-Item -Path $InstallerPath -Force
+Write-Host "Anydesk installed"
 
 Write-Host "========================================="
 Write-Host "           GVG setup complete!           "
